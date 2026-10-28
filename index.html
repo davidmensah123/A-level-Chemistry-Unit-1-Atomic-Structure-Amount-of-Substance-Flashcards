@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level Chemistry: Atomic Structure & Amount of Substance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .perspective {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flipped {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center py-8 px-4 font-sans text-slate-800">
+
+    <div class="max-w-2xl w-full">
+        <!-- Header -->
+        <header class="text-center mb-6">
+            <span class="inline-block px-3 py-1 mb-2 text-xs font-semibold tracking-wider text-indigo-700 bg-indigo-100 rounded-full uppercase">
+                A-Level Chemistry (AQA • OCR • Edexcel • IB)
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Atomic Structure & Amount of Substance</h1>
+            <p class="text-slate-600 mt-1 text-sm sm:text-base">Unit 1 Essential Definitions, Equations & Quantitative Calculations</p>
+        </header>
+
+        <!-- Category & Progress Header -->
+        <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 px-1">
+            <span id="topic-tag" class="text-indigo-600 bg-white px-2.5 py-1 rounded-md shadow-sm border border-slate-200">Topic</span>
+            <span id="counter" class="text-slate-600">Card 1 / 20</span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mb-6 bg-slate-200 rounded-full h-2 overflow-hidden shadow-inner">
+            <div id="progress-bar" class="bg-indigo-600 h-2 transition-all duration-300 ease-out" style="width: 5%"></div>
+        </div>
+
+        <!-- Card Container -->
+        <div class="perspective h-80 sm:h-96 mb-6 relative select-none">
+            <div id="flashcard" class="flip-card-inner">
+                <!-- Front Side -->
+                <div class="flip-card-front bg-white border border-slate-200 hover:border-indigo-300 transition-colors">
+                    <span class="text-xs font-semibold tracking-widest uppercase text-indigo-500 mb-3 block">Keyword / Concept</span>
+                    <h2 id="card-front-text" class="text-2xl sm:text-3xl font-bold text-slate-900 px-4"></h2>
+                    <span class="mt-6 inline-flex items-center text-xs text-slate-400 font-medium">
+                        <svg class="w-4 h-4 mr-1 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                        Click or tap card to flip
+                    </span>
+                </div>
+                
+                <!-- Back Side -->
+                <div class="flip-card-back bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white border border-indigo-700 shadow-xl overflow-y-auto">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-300 mb-2 block">Specification Definition & Formula</span>
+                    <div id="card-back-text" class="text-base sm:text-lg leading-relaxed text-indigo-50 px-2 sm:px-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+            <div class="flex items-center gap-2">
+                <button id="prev-btn" aria-label="Previous card" class="p-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <button id="flip-btn" class="px-4 py-2 text-sm font-semibold rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition active:scale-95">
+                    Flip Card
+                </button>
+                <button id="next-btn" aria-label="Next card" class="p-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="shuffle-btn" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold tracking-wide transition active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h2.828a2 2 0 0 0 1.414-.586L10.414 13L13 15.586L18.586 21H22"/><path d="m17 16 5 5"/><path d="m22 16-5 5"/><path d="M2 6h2.828a2 2 0 0 1 1.414.586L10.414 11L13 8.414L18.586 3H22"/><path d="m17 8 5-5"/><path d="m22 8-5-5"/></svg>
+                    Shuffle
+                </button>
+                <button id="reset-btn" class="px-3 py-2 rounded-lg text-slate-500 hover:text-slate-800 text-xs font-semibold transition hover:bg-slate-100">
+                    Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Instructions footer -->
+        <footer class="text-center mt-6 text-slate-400 text-xs flex justify-center gap-4">
+            <span><kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-600 font-mono">Space</kbd> / <kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-600 font-mono">↑/↓</kbd> Flip</span>
+            <span><kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-600 font-mono">←</kbd> Prev</span>
+            <span><kbd class="px-1.5 py-0.5 bg-slate-200 rounded text-slate-600 font-mono">→</kbd> Next</span>
+        </footer>
+    </div>
+
+    <script>
+        const cardsData = [
+            {
+                topic: "Atomic Structure & Isotopes",
+                term: "Isotopes",
+                definition: "Atoms of the same element with the same number of protons (atomic number) but different numbers of neutrons (different nucleon/mass number), sharing identical chemical properties due to the same electron configuration."
+            },
+            {
+                topic: "Mass Spectrometry",
+                term: "Relative Atomic Mass (Aᵣ)",
+                definition: "The weighted average mass of an atom of an element compared with one twelfth (1/12th) of the mass of an atom of carbon-12.<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>Aᵣ = Σ (Isotopic Mass × % Abundance) / 100</span>"
+            },
+            {
+                topic: "Mass Spectrometry",
+                term: "Time of Flight (TOF) Ionisation",
+                definition: "<strong>Electron Impact (EI):</strong> High-energy electrons from an electron gun knock out an electron: M(g) → M⁺(g) + e⁻.<br><br><strong>Electrospray Ionisation:</strong> Sample dissolved in volatile solvent and injected through a high-voltage needle, gaining a proton: M(g) + H⁺ → MH⁺(g)."
+            },
+            {
+                topic: "Mass Spectrometry",
+                term: "TOF Ion Drift & Velocity",
+                definition: "All ions are accelerated by an electric field to have the same kinetic energy (KE = ½mv²). Lighter ions travel with higher velocity and reach the detector first (t = d√(m/2KE))."
+            },
+            {
+                topic: "Atomic Structure",
+                term: "First Ionisation Energy",
+                definition: "The energy required to remove one mole of electrons from one mole of gaseous atoms to form one mole of gaseous 1+ ions.<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>X(g) → X⁺(g) + e⁻</span>"
+            },
+            {
+                topic: "Amount of Substance",
+                term: "The Mole & Avogadro Constant (L / Nₐ)",
+                definition: "One mole is the amount of substance that contains 6.022 × 10²³ elementary particles (atoms, molecules, or formula units), equal to the number of atoms in exactly 12.000 g of carbon-12."
+            },
+            {
+                topic: "Formulae & Equations",
+                term: "Empirical vs Molecular Formula",
+                definition: "<strong>Empirical Formula:</strong> The simplest whole-number ratio of atoms of each element in a compound.<br><br><strong>Molecular Formula:</strong> The actual number of atoms of each element in a molecule (Molecular Formula = n × Empirical Formula)."
+            },
+            {
+                topic: "Amount of Substance",
+                term: "Moles & Mass Equation",
+                definition: "The relationship connecting the amount of substance in moles (n) to mass (m in g) and molar mass (M in g mol⁻¹):<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>n = m / M  (Mass = Moles × Molar Mass)</span>"
+            },
+            {
+                topic: "Moles in Volume",
+                term: "Solution Concentration Equations",
+                definition: "The amount of solute dissolved in an aqueous volume:<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>n = c × V (where V is in dm³)<br>or  n = (c × V) / 1000 (where V is in cm³)</span>Concentration can be expressed in mol dm⁻³ or g dm⁻³."
+            },
+            {
+                topic: "Moles in Volume",
+                term: "Molar Gas Volume (Vₘ)",
+                definition: "At Room Temperature and Pressure (RTP = 20°C / 293 K and 101.3 kPa):<br>1 mole of any gas occupies 24.0 dm³ (24,000 cm³).<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>Moles of gas = Volume (dm³) / 24.0</span>"
+            },
+            {
+                topic: "Moles in Volume",
+                term: "Ideal Gas Equation",
+                definition: "Describes gas behaviour at varying temperatures and pressures:<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>p V = n R T</span>• p = pressure (Pa)<br>• V = volume (m³, where 1 m³ = 10⁶ cm³ = 10³ dm³)<br>• n = moles<br>• R = 8.314 J K⁻¹ mol⁻¹<br>• T = temp (K = °C + 273)"
+            },
+            {
+                topic: "Formulae & Equations",
+                term: "Ionic Equations & Spectator Ions",
+                definition: "Chemical equations showing only the participating species. Spectator ions (ions that remain aqueous and unchanged in oxidation state on both sides of the equation) are omitted."
+            },
+            {
+                topic: "Quantitative Chemistry",
+                term: "Limiting Reactant",
+                definition: "The reactant in a chemical reaction that is completely consumed first. It determines/limits the maximum theoretical yield of product that can be formed; any other reactant is in excess."
+            },
+            {
+                topic: "Quantitative Chemistry",
+                term: "Theoretical Yield",
+                definition: "The maximum amount of product that can be formed in a reaction, calculated assuming 100% conversion of the limiting reactant based on the balanced stoichiometric equation."
+            },
+            {
+                topic: "Yield & Economy",
+                term: "Percentage Yield",
+                definition: "The ratio of the actual mass of product obtained experimentally to the theoretical yield:<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>% Yield = (Actual Yield / Theoretical Yield) × 100</span>Losses occur due to incomplete reactions, side reactions, or product lost during purification."
+            },
+            {
+                topic: "Yield & Economy",
+                term: "Percentage Atom Economy",
+                definition: "A measure of the efficiency of a reaction in converting reactant atoms into desired product atoms:<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>% Atom Economy = (Mᵣ of Desired Product / Total Mᵣ of all Reactants) × 100</span>Addition reactions always have 100% atom economy."
+            },
+            {
+                topic: "Quantitative Chemistry",
+                term: "Standard Solution",
+                definition: "A solution of accurately known concentration, prepared by dissolving an accurately weighed primary standard in deionised water and making it up to an exact calibrated volume in a volumetric flask."
+            },
+            {
+                topic: "Formulae & Equations",
+                term: "Relative Molecular Mass (Mᵣ) / Formula Mass",
+                definition: "The weighted average mass of a molecule (or formula unit in ionic compounds) compared with one twelfth (1/12th) of the mass of an atom of carbon-12.<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>Mᵣ = Σ (Relative Atomic Masses of all constituent atoms)</span>"
+            },
+            {
+                topic: "Measurement & Errors",
+                term: "Percentage Uncertainty",
+                definition: "The quantitative estimation of experimental error in equipment measurement:<br><br><span class='text-sm bg-indigo-950/70 p-2 rounded block font-mono border border-indigo-400/30'>% Uncertainty = (Uncertainty × Readings count / Measured Value) × 100</span>(e.g. burettes and balances involve 2 readings)."
+            },
+            {
+                topic: "Formulae & Equations",
+                term: "Water of Crystallisation & Hydrated Salts",
+                definition: "Water molecules chemically bonded into the crystal lattice structure of a salt (e.g. CuSO₄·5H₂O). Heating to constant mass removes the water to form the anhydrous compound."
+            }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        let currentDeck = [...cardsData];
+
+        const cardElement = document.getElementById('flashcard');
+        const frontText = document.getElementById('card-front-text');
+        const backText = document.getElementById('card-back-text');
+        const topicTag = document.getElementById('topic-tag');
+        const counter = document.getElementById('counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const flipBtn = document.getElementById('flip-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updateCard() {
+            cardElement.classList.remove('flipped');
+            isFlipped = false;
+            
+            const currentItem = currentDeck[currentIndex];
+            
+            setTimeout(() => {
+                topicTag.innerText = currentItem.topic;
+                frontText.innerText = currentItem.term;
+                backText.innerHTML = currentItem.definition;
+                counter.innerText = `Card ${currentIndex + 1} / ${currentDeck.length}`;
+                
+                const progress = ((currentIndex + 1) / currentDeck.length) * 100;
+                progressBar.style.width = `${progress}%`;
+            }, 100);
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            cardElement.classList.toggle('flipped', isFlipped);
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % currentDeck.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + currentDeck.length) % currentDeck.length;
+            updateCard();
+        }
+
+        function shuffleDeck() {
+            for (let i = currentDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentDeck[i], currentDeck[j]] = [currentDeck[j], currentDeck[i]];
+            }
+            currentIndex = 0;
+            updateCard();
+        }
+
+        function resetDeck() {
+            currentDeck = [...cardsData];
+            currentIndex = 0;
+            updateCard();
+        }
+
+        // Event listeners
+        cardElement.addEventListener('click', flipCard);
+        flipBtn.addEventListener('click', flipCard);
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextCard(); });
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevCard(); });
+        shuffleBtn.addEventListener('click', shuffleDeck);
+        resetBtn.addEventListener('click', resetDeck);
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextCard();
+            } else if (e.key === 'ArrowLeft') {
+                prevCard();
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                flipCard();
+            }
+        });
+
+        // Initial load
+        updateCard();
+    </script>
+</body>
+</html>
